@@ -1,3 +1,4 @@
+import com.sun.org.apache.xalan.internal.xsltc.compiler.util.Type;
 import java.util.Scanner;
 
 public class Heapsort {
@@ -11,8 +12,11 @@ public class Heapsort {
         for(String s : input){
             heap.insert(new Element(Integer.parseInt(s), new Object()));
         }
-
-        System.out.println(heap.ExtractMin().key);
-        heap.sort();
+        
+        Element[] elms = heap.sort();
+        
+        for(int i = 0; i <elms.length; i++){
+            System.out.println(elms[i].key);
+        }
     } 
 }

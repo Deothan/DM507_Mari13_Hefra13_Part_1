@@ -10,7 +10,14 @@ PQHeap(int maxElms){
     @Override
     public Element ExtractMin() {
         if(heap[0] != null){
-            return heap[0];
+            Element temp = heap[0];            
+            heap[0] = null;
+            swap(0, current-1);
+            current--;
+            
+            minHeap(0, current);
+            
+            return temp;
         }
         return null;
     }
@@ -61,13 +68,14 @@ PQHeap(int maxElms){
         heap[j] = tmp; 
     }  
     
-    public void sort(){
-        heapify(current);        
-        
+    public Element[] sort(){
+        Element[] elms = new Element[current];
+        int j = 0;
         for (int i = current-1; i >= 0; i--)
         {
-            swap(0, i);
-            minHeap(0, i-1);
+            elms[j] = ExtractMin();
+            j++;
         }
+        return elms;
     }
 }
