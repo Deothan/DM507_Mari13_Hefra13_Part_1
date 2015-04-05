@@ -13,5 +13,6 @@ public class Heapsort {
         }
 
         System.out.println(heap.ExtractMin().key);
+        heap.sort();
     } 
 }

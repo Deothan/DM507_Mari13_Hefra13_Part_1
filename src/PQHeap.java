@@ -10,7 +10,6 @@ PQHeap(int maxElms){
     @Override
     public Element ExtractMin() {
         if(heap[0] != null){
-            sort();
             return heap[0];
         }
         return null;
@@ -18,40 +17,40 @@ PQHeap(int maxElms){
 
     @Override
     public void insert(Element e) {
-        heap[current] = e;
-        
-        if(current != max){
+        if(current < max){
+            heap[current] = e;
             current++;
+            heapify(current);
         }            
         else{
             System.out.println("No more room in the array");
         }
     }
-    
-    private void heapify(){
-        for (int i = current/2; i >= 0; i--){
-            minHeap(i);
+    //Build min heap
+    private void heapify(int n){
+        for (int i = n/2; i >= 0; i--){
+            minHeap(i, n);
         }            
     }
-    
-    private void minHeap(int i)
+    //Min heap
+    private void minHeap(int parent, int n)
     { 
-        int left = 2*i ;
-        int right = 2*i + 1;
-        int min = i;
+        int left = 2*parent ;
+        int right = 2*parent + 1;
+        int min = parent;
         
-        if (left <= current-1 && heap[left].key < heap[i].key){
+        if (left <= n-1 && heap[left].key < heap[parent].key){
             min = left;
         }
 
-        if (right <= current-1 && heap[right].key < heap[min].key){
+        if (right <= n-1 && heap[right].key < heap[min].key){
             min = right;
         }        
             
-        if (min != i)
+        if (min != parent)
         {
-            swap(i, min);
-            minHeap(min);
+            swap(parent, min);
+            minHeap(min, n);
         }
     }  
     
@@ -62,12 +61,13 @@ PQHeap(int maxElms){
         heap[j] = tmp; 
     }  
     
-    private void sort(){
-        heapify();        
+    public void sort(){
+        heapify(current);        
         
-        for (int i = current; i > 0; i--)
+        for (int i = current-1; i >= 0; i--)
         {
-            minHeap(0);
+            swap(0, i);
+            minHeap(0, i-1);
         }
     }
 }
