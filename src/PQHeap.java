@@ -1,18 +1,19 @@
 public class PQHeap implements PQ{
 private Element[] heap;
-private int n, current = 0, max;
+private int current = 0, max;
 
 PQHeap(int maxElms){
     heap = new Element[maxElms];
-    n = heap.length - 1;
     max = maxElms;
 }
 
     @Override
     public Element ExtractMin() {
-        sort();
-        
-        return heap[0];
+        if(heap[0] != null){
+            sort();
+            return heap[0];
+        }
+        return null;
     }
 
     @Override
@@ -28,7 +29,7 @@ PQHeap(int maxElms){
     }
     
     private void heapify(){
-        for (int i = n/2; i >= 0; i--){
+        for (int i = current/2; i >= 0; i--){
             minHeap(i);
         }            
     }
@@ -39,12 +40,14 @@ PQHeap(int maxElms){
         int right = 2*i + 1;
         int min = i;
         
-        if (left <= n && heap[left].key > heap[i].key)
+        if (left <= current-1 && heap[left].key < heap[i].key){
             min = left;
-        
-        if (right <= n && heap[right].key > heap[min].key)        
+        }
+
+        if (right <= current-1 && heap[right].key < heap[min].key){
             min = right;
- 
+        }        
+            
         if (min != i)
         {
             swap(i, min);
@@ -62,10 +65,8 @@ PQHeap(int maxElms){
     private void sort(){
         heapify();        
         
-        for (int i = n; i > 0; i--)
+        for (int i = current; i > 0; i--)
         {
-            swap(0, i);
-            n = n-1;
             minHeap(0);
         }
     }
